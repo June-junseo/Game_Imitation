@@ -14,7 +14,7 @@ void Framework::Init(int w, int h, const std::string& t)
     SOUND_MGR.Init();
 	SCENE_MGR.Init();
 }
-
+//
 void Framework::Do()
 {
     while (window.isOpen())
