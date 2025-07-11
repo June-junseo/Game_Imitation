@@ -81,32 +81,33 @@ void AniPlayer::Update(float dt)
 		h = InputMgr::GetAxis(Axis::Horizontal);
 		velocity.x = h * speed;
 	}
+	//바닥에 붙어있을때만 좌우 키 압력
 	if (isGrounded && InputMgr::GetKeyDown(sf::Keyboard::Space))
-	{
+	{//velocity?
 		isGrounded = false;
 		velocity.y = -250.f;
 		animator.Play("animations/jump.csv");
 	}
 	if (!isGrounded)
 	{
-		velocity += gravity * dt;
+		velocity += gravity * dt; //이동하는 코드랑 동일
 	}
-	position += velocity * dt;
+	position += velocity * dt; //y 값 //아래도 가속도 (바닥에 충돌했나 충돌하지 않았나 검사 )
 	if (position.y > 0.f)
 	{
 		velocity.y = 0.f;
 		position.y = 0.f;
 		isGrounded = true;
 	}
-	SetPosition(position);
+	SetPosition(position); //실제 position 을 적용 
 
-	if (h != 0.f)
+	if (h != 0.f) //h가 0이 아닌경우 
 	{
-		SetScale(h > 0.f ? sf::Vector2f(1.0f, 1.0) : sf::Vector2f(- 1.f, 1.0f));
+		SetScale(h > 0.f ? sf::Vector2f(1.0f, 1.0) : sf::Vector2f(- 1.f, 1.0f)); //반전
 	}
 
 	// Ani
-	if (animator.GetCurrentClipId() == "Idle")
+	if (animator.GetCurrentClipId() == "Idle") //좌우키가 눌리지 않았을떄
 	{
 		if (h != 0.f)
 		{
@@ -117,18 +118,18 @@ void AniPlayer::Update(float dt)
 	{
 		if (h == 0.f)
 		{
-			animator.Play("animations/idle.csv");
+			animator.Play("animations/idle.csv"); 
 		}
 	}
-	else if (animator.GetCurrentClipId() == "Jump" && isGrounded)
+	else if (animator.GetCurrentClipId() == "Jump" && isGrounded) //space바 눌러서 점프하고 바닥에 떨저졌을떄 grounded 가 되면
 	{
 		if (h == 0.f)
 		{
-			animator.Play("animations/idle.csv");
+			animator.Play("animations/idle.csv"); //아이들이나
 		}
 		else
 		{
-			animator.Play("animations/run.csv");
+			animator.Play("animations/run.csv"); //run이 됨
 		}
 	}
 }

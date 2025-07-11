@@ -24,7 +24,7 @@
     <ProjectGuid>{11673853-143c-4c56-92be-f2af694319f7}</ProjectGuid>
     <RootNamespace>sfmltimber</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>sfml-project</ProjectName>
+    <ProjectName>GameImitation</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

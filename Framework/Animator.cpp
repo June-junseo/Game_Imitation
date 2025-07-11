@@ -19,14 +19,14 @@ void Animator::Update(float dt)
 	if (!isPlaying)
 		return;
 
-	accumTime += dt * std::fabs(speed);
-	if (accumTime < frameDuration)
+	accumTime += dt * std::fabs(speed); //배속 
+	if (accumTime < frameDuration) //frameduration 한프레임이 유지되는 시간  
 		return;
 
-	currentFrame += speed > 0.f ? 1 : -1;
-	accumTime = 0.f;
+	currentFrame += speed > 0.f ? 1 : -1; //스피드에 맞춰서 다음 프레임에 재생한 애니메이션의 인덱스를
+	accumTime = 0.f; //초기화 
 
-	if (currentFrame == checkFrame)
+	if (currentFrame == checkFrame) //애니메이션 종료되는 프레임
 	{
 		if (!playQueue.empty())
 		{
@@ -48,8 +48,8 @@ void Animator::Update(float dt)
 	}
 
 	SetFrame(currentClip->frames[currentFrame]);
-	auto find = events.find({ currentClip->id, currentFrame });
-	if (find != events.end())
+	auto find = events.find({ currentClip->id, currentFrame }); 
+	if (find != events.end()) 
 	{
 		auto& ev = find->second;
 		for (auto& action : ev.actions)
@@ -81,10 +81,10 @@ void Animator::Play(AnimationClip* clip, bool clearQueue)
 
 	currentClip = clip;
 	totalFrame = clip->frames.size();
-	checkFrame = this->speed > 0.f ? totalFrame : -1;
+	checkFrame = this->speed > 0.f ? totalFrame : -1; //양수나 음수이냐 따라 (조건됨)
 	currentFrame = speed > 0.f ? 0 : totalFrame - 1;
 
-	frameDuration = 1.f / clip->fps;
+	frameDuration = 1.f / clip->fps; //
 	accumTime = 0.f;
 	SetFrame(currentClip->frames[currentFrame]);
 }
@@ -105,3 +105,4 @@ void Animator::SetFrame(const AnimationFrame& frame)
 	sprite->setTextureRect(frame.texCoord);
 	//sprite->
 }
+//

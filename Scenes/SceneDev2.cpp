@@ -10,11 +10,17 @@ SceneDev2::SceneDev2() : Scene(SceneIds::Dev2)
 void SceneDev2::Init()
 {
 	texIds.push_back("graphics/sprite_sheet.png");
+
+	texIds.push_back("graphics/sprite_sheet.png");
+
 	fontIds.push_back("fonts/DS-DIGIT.ttf");
 
 	ANI_CLIP_MGR.Load("animations/idle.csv");
 	ANI_CLIP_MGR.Load("animations/run.csv");
 	ANI_CLIP_MGR.Load("animations/jump.csv");
+	ANI_CLIP_MGR.Load("animations/idle.csv");
+
+	//스프라이트 피봇 확인 해야함 
 
 	TextGo* go = new TextGo("fonts/DS-DIGIT.ttf");
 	go->SetString("Dev 2");
