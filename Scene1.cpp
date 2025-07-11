@@ -27,6 +27,10 @@ void Scene1::Init()
 	background1.setPosition(0.f, 0.f);
 	background1.setTexture(TEXTURE_MGR.Get(texId), true);
 
+	//Light set up
+	light.setPosition(0.f, 0.f);
+	light.setTexture(TEXTURE_MGR.Get(texId1), true);
+
 	//view setting(****)
 	SetUpViews();
 
@@ -37,6 +41,9 @@ void Scene1::Init()
 	sf::FloatRect albumClickableArea(shelfCenter.x - 75.f, shelfCenter.y + 100.f, 150.f, 100.f);
 	albumRect.setPosition(albumClickableArea.left, albumClickableArea.top);
 
+	sf::Vector2f numPadPos = uiView.getCenter() + sf::Vector2f(-35.f, -25.f); // 중앙에서 왼쪽 20, 위 15 이동
+	numPad.Init(numPadPos, { 50.f, 50.f });
+	numPad.SetPassword("1234");
 
 	// view need to be init cnetered
 	sf::Texture& shelfTex = TEXTURE_MGR.Get("graphics/shelf_ui.png");
@@ -52,7 +59,7 @@ void Scene1::Init()
 	albumUi.Init(albumTex, uiView.getCenter());
 	albumUi.SetClickableArea(albumClickableArea);
 
-	//check rect position for programmer
+	/*check rect position for programmer*/
 	shelfRect.setSize({ 270.f, 250.f });
 	shelfRect.setPosition(shelfClickableArea.left, shelfClickableArea.top);
 	shelfRect.setFillColor(sf::Color(255, 0, 0, 100));
@@ -121,6 +128,7 @@ void Scene1::Update(float dt)
 {
 	Scene::Update(dt);
 	InputMgr::Update(dt);
+	numPad.Update(dt);
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
@@ -145,10 +153,12 @@ void Scene1::Update(float dt)
 				albumUi.Hide();
 				std::cout << "shelfUi clicked\n";
 			}
-			else if (boxUi.CheckClick(mousePosF)) {
+			if (boxUi.CheckClick(mousePosF)) {
 				boxUi.Show();
 				shelfUi.Hide();
 				albumUi.Hide();
+
+				numPad.SetVisible(true);  // 이 부분 추가!
 				std::cout << "boxUi clicked\n";
 			}
 		}
@@ -162,11 +172,22 @@ void Scene1::Update(float dt)
 		rightArrow->UpdateHoverState(FRAMEWORK.GetWindow());
 		rightArrow->Update();
 	}
+
+	blinkTimer += dt;
+
+	if (blinkTimer >= blinkInterval)
+	{
+		blinkTimer = 0.f;
+
+		int alpha = rand() % 176 + 80; // 80~255 사이
+		light.setColor(sf::Color(255, 255, 255, alpha));
+	}
 }
 
 void Scene1::ResourceLoad()
 {
 	texIds.push_back(texId);
+	texIds.push_back(texId1);
 	texIds.push_back("graphics/shelf_ui.png"); 
 	texIds.push_back("graphics/box_ui.png");
 	texIds.push_back("graphics/album_ui.png");
@@ -186,6 +207,8 @@ void Scene1::SetUpViews()
 
 void Scene1::HandleEvent(const sf::Event& event)
 {
+	numPad.HandleEvent(event, FRAMEWORK.GetWindow());
+
 	InputMgr::UpdateEvent(event);
 
 	if (leftArrow)
@@ -199,10 +222,12 @@ void Scene1::HandleEvent(const sf::Event& event)
 void Scene1::Draw(sf::RenderWindow& window)
 {
 	window.draw(background1);
+	window.draw(light);
 	window.setView(uiView);
 
 	window.draw(shelfRect);
 	window.draw(boxRect);
+
 
 	// ?? shelfUi를 먼저 그리고 그 위에 albumRect 같이 출력되도록 함
 	shelfUi.Draw(window, &albumRect); // <- 여기!
@@ -214,6 +239,7 @@ void Scene1::Draw(sf::RenderWindow& window)
 
 	boxUi.Draw(window);      // 다른 UI
 	albumUi.Draw(window);    // 앨범 자체를 열었을 때
+	numPad.Draw(window);
 
 	if (leftArrow) window.draw(*leftArrow);
 	if (rightArrow) window.draw(*rightArrow);
