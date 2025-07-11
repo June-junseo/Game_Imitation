@@ -13,6 +13,7 @@
 // SFML
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <functional>
 
 // FRAMEWORK
 #include "Defines.h"
@@ -26,4 +27,5 @@
 #include "SceneMgr.h"
 #include "SoundMgr.h"
 #include "Framework.h"
+
 

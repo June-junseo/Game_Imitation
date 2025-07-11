@@ -31,6 +31,8 @@ public:
 
 	virtual void Update(float dt);
 	virtual void Draw(sf::RenderWindow& window);
+	virtual void HandleEvent(const sf::Event& event) {}
+
 
 	GameObject* AddGameObject(GameObject* go);
 	void RemoveGameObject(GameObject* go);
@@ -44,6 +46,7 @@ public:
 	sf::Vector2i WorldToScreen(sf::Vector2f worldPos);
 	sf::Vector2f ScreenToUi(sf::Vector2i screePos);
 	sf::Vector2i UiToScreen(sf::Vector2f worldPos);
+
 };
 
 struct DrawOrderComparer
