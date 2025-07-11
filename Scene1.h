@@ -14,9 +14,13 @@ protected:
 	sf::Sprite background1;
 	std::string texId = "graphics/scene1_bg.png";
 
-	ZoomUI zoomUI;
+	ZoomUI shelfUi;
+	ZoomUI albumUi;
+	ZoomUI boxUi;
 
-	sf::RectangleShape clickableRect;
+	sf::RectangleShape shelfRect;
+	sf::RectangleShape boxRect;
+	sf::RectangleShape albumRect;
 
 	/*sf::RectangleShape clickableRect; 
 	sf::Sprite uiSprite;                

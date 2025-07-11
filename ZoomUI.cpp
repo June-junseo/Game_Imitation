@@ -17,15 +17,9 @@ bool ZoomUI::CheckClick(const sf::Vector2f& point)
     return clickableArea.contains(point);
 }
 
-void ZoomUI::Draw(sf::RenderWindow& window)
-{
-    if (isVisible)
-    {
-        std::cout << "ZoomUI drwaing\n";
-        window.draw(sprite);
-    }
-    else
-    {
-        std::cout << "ZoomUI hided\n";
-    }
+void ZoomUI::Draw(sf::RenderWindow& window, const sf::RectangleShape* extraOverlay) {
+    if (!isVisible) return;
+    window.draw(sprite);  // 줌인된 UI 전체
+    if (extraOverlay)
+        window.draw(*extraOverlay);  // albumRect도 함께 위에 그림
 }

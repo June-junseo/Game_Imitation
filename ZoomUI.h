@@ -17,5 +17,5 @@ public:
     void Hide() { isVisible = false; }
     bool IsVisible() const { return isVisible; }
 
-    void Draw(sf::RenderWindow& window);
+    void Draw(sf::RenderWindow& window, const sf::RectangleShape* extraOverlay = nullptr);
 };
