@@ -13,6 +13,9 @@ void Scene1::Init()
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f size(25.f, 30.f);
 
+	shadowBg.setSize({ 1920, 1080 });
+	shadowBg.setFillColor(sf::Color(0, 0, 0, 150));
+
 	leftArrow = new ArrowButton(ArrowDirection::Left, { 150, windowSize.y / 2 - 20 }, size);
 	rightArrow = new ArrowButton(ArrowDirection::Right, { windowSize.x - 370, windowSize.y / 2 - 20 }, size);
 
@@ -203,6 +206,11 @@ void Scene1::Draw(sf::RenderWindow& window)
 
 	// ?? shelfUi를 먼저 그리고 그 위에 albumRect 같이 출력되도록 함
 	shelfUi.Draw(window, &albumRect); // <- 여기!
+
+	if (albumUi.IsVisible())
+	{
+		window.draw(shadowBg);
+	}
 
 	boxUi.Draw(window);      // 다른 UI
 	albumUi.Draw(window);    // 앨범 자체를 열었을 때

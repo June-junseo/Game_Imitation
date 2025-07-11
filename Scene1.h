@@ -18,6 +18,7 @@ protected:
 	ZoomUI albumUi;
 	ZoomUI boxUi;
 
+	sf::RectangleShape shadowBg;
 	sf::RectangleShape shelfRect;
 	sf::RectangleShape boxRect;
 	sf::RectangleShape albumRect;
