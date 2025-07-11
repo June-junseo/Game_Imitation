@@ -75,6 +75,9 @@
     <ClCompile Include="ArrowButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="ZoomUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\InputMgr.h">
@@ -144,6 +147,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ArrowButton.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoomUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

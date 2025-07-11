@@ -162,6 +162,7 @@
     <ClCompile Include="Framework\TextGo.cpp" />
     <ClCompile Include="Framework\Utils.cpp" />
     <ClCompile Include="Framework\Variables.cpp" />
+    <ClCompile Include="ZoomUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrowButton.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Framework\TextGo.h" />
     <ClInclude Include="Framework\Utils.h" />
     <ClInclude Include="Framework\Variables.h" />
+    <ClInclude Include="ZoomUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

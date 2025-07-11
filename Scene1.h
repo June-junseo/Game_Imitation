@@ -1,5 +1,7 @@
 #pragma once
 #include "Scene.h"
+#include "ZoomUI.h"
+
 class ArrowButton;
 class Scene1 :
     public Scene
@@ -8,8 +10,17 @@ protected:
 
 	ArrowButton* leftArrow = nullptr;
 	ArrowButton* rightArrow = nullptr;
+
 	sf::Sprite background1;
 	std::string texId = "graphics/scene1_bg.png";
+
+	ZoomUI zoomUI;
+
+	sf::RectangleShape clickableRect;
+
+	/*sf::RectangleShape clickableRect; 
+	sf::Sprite uiSprite;                
+	bool isUIVisible = false;*/
 
 public:
 	Scene1();
