@@ -1,16 +1,15 @@
 #include "stdafx.h"
 #include "NumPad.h"
 
-
 void NumPad::Init(const sf::Vector2f& position, const sf::Vector2f& buttonSize)
 {
     this->position = position;
     this->buttonSize = buttonSize;
 
-    if (!font.loadFromFile("fonts/DS-DIGIT.ttf"))
-    {
-        std::cerr << "Failed to load font" << std::endl;
-    }
+    buttons.clear();
+    texts.clear();
+
+    font.loadFromFile("fonts/DS-DIGIT.ttf");
 
     labels = {
         "1", "2", "3",
@@ -26,6 +25,7 @@ void NumPad::Init(const sf::Vector2f& position, const sf::Vector2f& buttonSize)
         int col = i % 3;
         button.setPosition(position.x + col * (buttonSize.x + 10.f), position.y + row * (buttonSize.y + 10.f));
         button.setFillColor(sf::Color::Yellow);
+
         buttons.push_back(button);
 
         sf::Text text;
@@ -33,7 +33,11 @@ void NumPad::Init(const sf::Vector2f& position, const sf::Vector2f& buttonSize)
         text.setString(labels[i]);
         text.setCharacterSize(24);
         text.setFillColor(sf::Color::Black);
-        text.setPosition(button.getPosition().x + 30.f, button.getPosition().y + 20.f);
+
+        sf::FloatRect textRect = text.getGlobalBounds();
+        text.setOrigin(textRect.left + textRect.width / 2.f, textRect.top + textRect.height / 2.f);
+        sf::Vector2f buttonCenter = button.getPosition() + buttonSize / 2.f;
+        text.setPosition(buttonCenter);
         texts.push_back(text);
     }
 }
@@ -49,74 +53,63 @@ void NumPad::Draw(sf::RenderWindow& window)
     }
 }
 
-void NumPad::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
+void NumPad::Update(float dt)
 {
-    if (!visible || event.type != sf::Event::MouseButtonPressed || event.mouseButton.button != sf::Mouse::Left) return;
+    if (!visible) return;
 
-    sf::Vector2f mousePos = window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
-
-    for (size_t i = 0; i < buttons.size(); ++i)
+    if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
     {
-        if (buttons[i].getGlobalBounds().contains(mousePos))
+        sf::Vector2i rawMousePos = InputMgr::GetMousePosition();
+        sf::Vector2f mappedMousePos = FRAMEWORK.GetWindow().mapPixelToCoords(rawMousePos);
+
+        for (size_t i = 0; i < buttons.size(); ++i)
         {
-            std::string label = labels[i];
-            if (label == "C")
+            if (buttons[i].getGlobalBounds().contains(mappedMousePos))
             {
-                ClearInput();
-            }
-            else if (label == "OK")
-            {
-                if (IsPasswordCorrect())
+                buttons[i].setFillColor(sf::Color::Red);
+                pressedIndex = static_cast<int>(i);
+                pressClock.restart();
+
+                const std::string& label = labels[i];
+                if (label == "C")
                 {
-                    std::cout << "Correct password!" << std::endl;
-                    visible = false; // or some success action
+                    input.clear();
+                }
+                else if (label == "OK")
+                {
+                    if (onOkPressed)
+                        onOkPressed();// OK ¹öÆ° pressed after function
                 }
                 else
                 {
-                    std::cout << "Wrong password" << std::endl;
+                    input += label;
                 }
+
+                break;
             }
-            else
-            {
-                input += label;
-                std::cout << "Input: " << input << std::endl;
-            }
-            break;
         }
+    }
+
+    if (pressedIndex != -1 && pressClock.getElapsedTime().asSeconds() > 0.2f)
+    {
+        buttons[pressedIndex].setFillColor(sf::Color::Yellow);
+        pressedIndex = -1;
     }
 }
 
-void NumPad::Update(float dt)
+void NumPad::SetVisible(bool v) { visible = v; }
+
+bool NumPad::IsVisible() const { return visible; }
+
+void NumPad::SetPassword(const std::string& pw) { password = pw; }
+
+bool NumPad::IsPasswordCorrect() const { return input == password; }
+
+void NumPad::ClearInput() { input.clear(); }
+
+void NumPad::SetOnOkPressed(std::function<void()> callback)
 {
-    // If needed for animation
+    onOkPressed = callback;
 }
 
-void NumPad::SetVisible(bool v)
-{
-    visible = v;
-}
-
-bool NumPad::IsVisible() const
-{
-    return visible;
-}
-
-void NumPad::SetPassword(const std::string& pw)
-{
-    password = pw;
-}
-
-bool NumPad::IsPasswordCorrect() const
-{
-    return input == password;
-}
-
-void NumPad::ClearInput()
-{
-    input.clear();
-}
-
-const std::string& NumPad::GetInput() const
-{
-    return input;
-}
+const std::string& NumPad::GetInput() const { return input; }

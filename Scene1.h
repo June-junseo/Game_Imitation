@@ -21,6 +21,7 @@ protected:
 	ZoomUI shelfUi;
 	ZoomUI albumUi;
 	ZoomUI boxUi;
+	ZoomUI boxOpenUi;
 
 	NumPad numPad;
 

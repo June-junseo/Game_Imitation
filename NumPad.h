@@ -1,4 +1,3 @@
-// NumPad.h
 #pragma once
 
 class NumPad {
@@ -14,12 +13,14 @@ public:
     void SetPassword(const std::string& pw);
     bool IsPasswordCorrect() const;
     void ClearInput();
+    void SetOnOkPressed(std::function<void()> callback);
     const std::string& GetInput() const;
 
 private:
     std::vector<sf::RectangleShape> buttons;
     std::vector<std::string> labels;
     std::vector<sf::Text> texts;
+    std::function<void()> onOkPressed;
 
     std::string input;
     std::string password;
@@ -29,4 +30,7 @@ private:
 
     sf::Vector2f position;
     sf::Vector2f buttonSize;
+
+    int pressedIndex = -1;
+    sf::Clock pressClock;
 };

@@ -23,3 +23,8 @@ void ZoomUI::Draw(sf::RenderWindow& window, const sf::RectangleShape* extraOverl
     if (extraOverlay)
         window.draw(*extraOverlay);  // albumRect도 함께 위에 그림
 }
+
+void ZoomUI::ChangeTexture(const sf::Texture& newTexture)
+{
+    sprite.setTexture(newTexture, true);
+}

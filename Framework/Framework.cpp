@@ -11,7 +11,7 @@ void Framework::Init(int w, int h, const std::string& t)
 
     Utils::Init();
 	InputMgr::Init();
-    SOUND_MGR.Init();
+    //SOUND_MGR.Init();
 	SCENE_MGR.Init();
 }
 //
@@ -37,7 +37,7 @@ void Framework::Do()
         InputMgr::Update(deltaTime);
 
         // Update
-        SOUND_MGR.Update(deltaTime);
+      /*  SOUND_MGR.Update(deltaTime);*/
 
 #ifdef DEF_DEV
         if (InputMgr::GetKeyDown(sf::Keyboard::F10))
@@ -58,7 +58,7 @@ void Framework::Do()
 
 void Framework::Release()
 {
-    SOUND_MGR.Release();
+    /*SOUND_MGR.Release();*/
 	SCENE_MGR.Release();
 
 	SOUNDBUFFER_MGR.Unload(soundIds);
