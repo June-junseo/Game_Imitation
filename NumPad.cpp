@@ -9,7 +9,7 @@ void NumPad::Init(const sf::Vector2f& position, const sf::Vector2f& buttonSize)
     buttons.clear();
     texts.clear();
 
-    font.loadFromFile("fonts/DS-DIGIT.ttf");
+    font.loadFromFile("fonts/fFlyingBird.ttf");
 
     labels = {
         "1", "2", "3",
@@ -24,7 +24,9 @@ void NumPad::Init(const sf::Vector2f& position, const sf::Vector2f& buttonSize)
         int row = i / 3;
         int col = i % 3;
         button.setPosition(position.x + col * (buttonSize.x + 10.f), position.y + row * (buttonSize.y + 10.f));
-        button.setFillColor(sf::Color::Yellow);
+        button.setFillColor(sf::Color(255, 195, 30));
+        button.setOutlineColor(sf::Color::Black);      
+        button.setOutlineThickness(4.f);
 
         buttons.push_back(button);
 
@@ -66,7 +68,7 @@ void NumPad::Update(float dt)
         {
             if (buttons[i].getGlobalBounds().contains(mappedMousePos))
             {
-                buttons[i].setFillColor(sf::Color::Red);
+                buttons[i].setFillColor(sf::Color(255, 100, 0));
                 pressedIndex = static_cast<int>(i);
                 pressClock.restart();
 
@@ -92,7 +94,7 @@ void NumPad::Update(float dt)
 
     if (pressedIndex != -1 && pressClock.getElapsedTime().asSeconds() > 0.2f)
     {
-        buttons[pressedIndex].setFillColor(sf::Color::Yellow);
+        buttons[pressedIndex].setFillColor(sf::Color(255, 195, 30));
         pressedIndex = -1;
     }
 }
